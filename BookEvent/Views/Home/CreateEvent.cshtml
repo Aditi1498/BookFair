@@ -1,0 +1,127 @@
+﻿@model BookEvent.Models.Event
+
+@{
+    ViewBag.Title = "CreateEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CreateEvent</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Event</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.BookTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BookTitle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BookTitle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.CreatedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CreatedBy, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CreatedBy, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.EventType, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.DropDownListFor(model => model.EventType, new List<SelectListItem> { new SelectListItem { Text = "public", Value = "public" }, new SelectListItem { Text = "private", Value = "private" } }, new { htmlAttributes = new { @class = "form-control-static" } })
+                @Html.ValidationMessageFor(model => model.EventType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+
+}
+
+<hr />
+
+@if (Model != null)
+    {
+    <h4>Invite People With their Email Id</h4>
+<div class="body-content">
+    @using (Html.BeginForm("InvitePeople", "Home", new { eventId = Model.EventID }))
+    {
+        <div class="form-horizontal">
+            @Html.TextArea("invites")
+            <div>
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+    }
+    <br />
+
+    <h5>Available Users</h5>
+    @if(ViewBag.Users != null)
+    {
+        <table class="table">
+            @foreach(var user in ViewBag.Users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.EmailID</td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+    }
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

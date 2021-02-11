@@ -1,0 +1,111 @@
+﻿@model List<List<Shared.EventsDTO>>
+
+@{
+    ViewBag.Title = "EventsList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><b>EventsList</b></h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+
+    @Html.ActionLink("login", "Login", "login")*@
+<table class="table">
+    <tr>
+        @*<th>
+                @Html.DisplayNameFor(model => model.UniqueID)
+            </th>*@
+        <th>
+            PastEvents
+        </th>
+        <th>
+            UpComingEvents
+        </th>
+        <th></th>
+    </tr>
+
+    @{
+        List<Shared.EventsDTO> pastEvents = Model[0].ToList();
+        List<Shared.EventsDTO> futureEvents = Model[1].ToList();
+    }
+
+
+    @for (int i = 0; i < pastEvents.Count || i < futureEvents.Count; i++)
+    {
+        <tr>
+
+            <td>
+                @if (i < pastEvents.Count)
+                {
+                    @Html.ActionLink(pastEvents[i].BookTitle, "EventDetails", new { EventId = pastEvents[i].EventID })
+                }
+
+            </td>
+
+            <td>
+                @if (i < futureEvents.Count)
+                {
+                    @Html.ActionLink(futureEvents[i].BookTitle, "EventDetails", new { EventId = futureEvents[i].EventID })
+                        if (Session["UserId"] != null && (ViewBag.Message == "MyEvents" || (int)Session["UserId"] == 1))
+                    {
+                    <br>
+                          @Html.ActionLink("Edit", "EditEvent", new { EventId = futureEvents[i].EventID })
+                        }
+                    }
+
+            </td>
+        </tr>
+    }
+</table>
+
+
+<div class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        <li>
+            @if (User.Identity.IsAuthenticated)
+            {
+                @*if (Session["UserId"] != null)
+                    {
+
+                    <li>Hi @Session["UserId"].ToString()</li>
+                    <li>@User.Identity.Name</li>*@
+
+                //}
+            <li class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("MyEvents", "MyEvents", new {UserId = @Session["UserId"] })</li>
+                    <li>@Html.ActionLink("Events Invited To", "InvitedTo", new { UserId = @Session["UserId"] })</li>
+                    <li>@Html.ActionLink("Create Event", "CreateEvent")</li>
+
+                </ul>
+            </li>
+            <li class="top-right">@Html.ActionLink("LogOut", "Logout", "Login")</li>
+
+        }
+        else
+            {
+            <li>@Html.ActionLink("login", "Login", "login")</li>
+            <li>@Html.ActionLink("SignUp", "Signup", "login")</li>
+            }
+
+
+        </ul>
+    </div>
+
+
+    @*<td>
+            @Html.DisplayFor(modelItem => item.UniqueID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BookTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>*@

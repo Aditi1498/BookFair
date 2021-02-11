@@ -1,0 +1,108 @@
+﻿@model BookEvent.Models.Event
+
+@{
+    ViewBag.Title = "EventDetails";
+    //Layout = "~/Views/Home/EventDetails.cshtml";
+}
+
+<h2>EventDetails</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BookTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BookTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration) <div>in hours</div>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+
+
+<div>Write a Comment</div>
+<div class="body-content">
+    @using (Html.BeginForm("AddComment", "Home", new { eventId = Model.EventID }))
+    {
+        <div class="form-horizontal">
+            @Html.TextArea("Comment")
+            <div>
+                <input type="submit" value="Add" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>
+
+
+<br /><br /><br />
+<h4>Comments</h4>
+
+<table class="table">
+    @if (ViewBag.Comments != null)
+    {
+        <tr>
+            <th>Comment By</th>
+            <th>Comment</th>
+        </tr>
+
+        foreach (var comment in @ViewBag.Comments)
+        {
+            <tr>
+                <td>@comment.UserName</td>
+                <td>@comment.Comment</td>
+            </tr>
+        }
+
+    }
+</table>
